@@ -121,12 +121,14 @@
             to { opacity: 1; }
         }
 
-        /* Fallback for Tableau loading issues */
         .tableau-fallback {
             display: none;
             text-align: center;
             padding: 20px;
             color: #666;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -152,12 +154,14 @@
             <p>Explore our interactive analytics below - your data journey starts here! 🚀</p>
             <div class="tableau-container" id="tableauEmbed">
                 <iframe 
-                    src="https://public.tableau.com/views/Book1_17429238241740/Dashboard1?:language=en-US&:display_count=n&:origin=viz_share_link&:embed=y&:toolbar=yes&:tabs=no" 
+                    src="https://public.tableau.com/views/Book1_17429238241740/Dashboard1?:language=en-US&:embed=y&:showVizHome=n&:display_count=n&:origin=viz_share_link" 
                     allowfullscreen>
                 </iframe>
             </div>
             <div class="tableau-fallback" id="tableauFallback">
-                <p>Oops! The Tableau dashboard isn't loading. 😕 <a href="https://public.tableau.com/views/Book1_17429238241740/Dashboard1" target="_blank">Click here</a> to view it directly!</p>
+                <p>Oops! The Tableau dashboard isn’t loading. 😕 <br>
+                <a href="https://public.tableau.com/views/Book1_17429238241740/Dashboard1" target="_blank">Click here</a> to view it directly on Tableau Public!</p>
+                <p><small>Tip: Ensure the dashboard is public and shared on Tableau Public.</small></p>
             </div>
         </section>
 
@@ -191,50 +195,3 @@
 
     <script>
         // JavaScript for dynamic stat counting and Tableau fallback
-        function animateCount(elementId, target, duration) {
-            let start = 0;
-            const element = document.getElementById(elementId);
-            const increment = target / (duration / 16);
-            
-            function updateCount() {
-                start += increment;
-                if (start >= target) {
-                    element.textContent = target.toLocaleString();
-                } else {
-                    element.textContent = Math.floor(start).toLocaleString();
-                    requestAnimationFrame(updateCount);
-                }
-            }
-            
-            requestAnimationFrame(updateCount);
-        }
-
-        // Check if Tableau iframe loads successfully
-        function checkTableauLoad() {
-            const iframe = document.querySelector('#tableauEmbed iframe');
-            const fallback = document.getElementById('tableauFallback');
-            
-            iframe.onerror = () => {
-                fallback.style.display = 'block';
-                iframe.style.display = 'none';
-            };
-
-            // Fallback if iframe doesn't load within 5 seconds
-            setTimeout(() => {
-                if (!iframe.contentWindow || !iframe.contentWindow.document.body) {
-                    fallback.style.display = 'block';
-                    iframe.style.display = 'none';
-                }
-            }, 5000);
-        }
-
-        // Start animations and checks when page loads
-        window.onload = () => {
-            animateCount('userCount', 12500, 2000);
-            animateCount('dataCount', 500000, 2000);
-            animateCount('insightCount', 350, 2000);
-            checkTableauLoad();
-        };
-    </script>
-</body>
-</html>
